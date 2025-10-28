@@ -1,73 +1,97 @@
-# React + TypeScript + Vite
+# 📘 CreditelApp
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web para el registro y consulta de créditos, con envío automático de correos al registrar un nuevo crédito.  
+Desarrollada como prueba técnica utilizando **.NET 9**, **React + Vite + TypeScript**, y **PostgreSQL**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧩 Características principales
 
-## React Compiler
+- ✅ **Formulario de registro** de créditos (cliente, cédula, valor, interés, plazo, comercial).
+- 📧 **Envío automático de correo** al registrar un nuevo crédito.
+- 📋 **Listado de créditos** registrados en tabla.
+- 🔍 **Filtros por cliente, cédula o comercial.**
+- 💾 Conexión a base de datos **PostgreSQL**.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🚀 Ejecución del Backend (.NET + PostgreSQL)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Configurar la base de datos
+Crea una base de datos en PostgreSQL, por ejemplo:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sql
+CREATE DATABASE creditelapp;
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Configurar variables de entorno
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+En el archivo `appsettings.json` o `.env` (según tu estructura), actualiza con tus datos reales:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Host=localhost;Port=5432;Database=creditelapp;Username=postgres;Password=tu_contraseña"
+},
+
 ```
+
+### Ejecutar las migraciones
+```bash
+dotnet ef database update
+```
+
+### Ejecutar el servidor
+```bash
+dotnet run
+```
+
+El backend se ejecutará por defecto en:
+```
+https://localhost:7196
+```
+
+---
+
+## 💻 Ejecución del Frontend (React + Vite + TypeScript)
+
+### Instalar dependencias
+```bash
+npm install
+```
+
+### Configurar variable de entorno
+
+Crea un archivo `.env` en la raíz del frontend con la URL del backend:
+
+```
+VITE_API_URL=https://localhost:7196/api
+```
+
+### Ejecutar la aplicación
+```bash
+npm run dev
+```
+
+Por defecto se ejecutará en:
+```
+http://localhost:5173
+```
+
+---
+
+## 🧪 Prueba del flujo
+
+1. Ingresa al frontend en el navegador.  
+2. Completa el formulario con los datos del crédito.  
+3. Haz clic en **Registrar Crédito**.  
+4. El sistema:
+   - Guarda el crédito en la base de datos.
+   - Envía un correo automático a `fyasocialcapital@gmail.com`.
+   - Seleccionar la opción "Consultar registros" que muestra el crédito en la tabla con opción de filtros.
+
+---
+
+## 👨‍💻 Autor
+
+**Daniel Meza**  
+📧 [dmeza2021@gmail.com](mailto:dmeza2021@gmail.com)
